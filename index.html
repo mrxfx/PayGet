@@ -3,32 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UPI Payment - IG Like Hub</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+  <title>Confirm Payment</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
   <div class="container">
-    <div class="card">
-      <h2>Select Amount and Pay</h2>
+    <h1>UPI Payment Confirmation</h1>
 
-      <div class="button-group">
-        <button onclick="generateQR(1)">₹1</button>
-        <button onclick="generateQR(20)">₹20</button>
-        <button onclick="generateQR(50)">₹50</button>
-        <button onclick="generateQR(100)">₹100</button>
-        <button onclick="generateQR(500)">₹500</button>
-      </div>
-
-      <div id="qrSection" class="qr-section">
-        <p>Scan this QR Code in any UPI app</p>
-        <canvas id="qrcode"></canvas>
-        <p id="txnId" class="txn-id"></p>
-        <p class="warning">⚠️ Do not close this page until payment is completed.</p>
-        <p class="status">⏳ Payment not received yet...</p>
-      </div>
+    <div class="amount-selector">
+      <label>Select Amount:</label>
+      <select id="amount">
+        <option value="10">₹10</option>
+        <option value="20">₹20</option>
+        <option value="50">₹50</option>
+        <option value="100">₹100</option>
+      </select>
     </div>
+
+    <button id="generate">Generate QR & Timer</button>
+
+    <div id="payment-info" class="hidden">
+      <img id="qr-code" src="" alt="QR Code"/>
+      <p id="timer">⏱ 05:00</p>
+      <p id="status">✅ Waiting for Payment</p>
+      <button id="payBtn">Pay Now</button>
+    </div>
+
   </div>
 
   <script src="script.js"></script>
