@@ -1,53 +1,59 @@
-const generateBtn = document.getElementById("generate");
-const payBtn = document.getElementById("payBtn");
-const qrCode = document.getElementById("qr-code");
-const timerText = document.getElementById("timer");
-const statusText = document.getElementById("status");
-const paymentInfo = document.getElementById("payment-info");
-
+const upiID = "rahulhaldar15@fam";
+const botURL = "/sendToTelegram.php";
 let countdown;
 
-generateBtn.addEventListener("click", () => {
-  const amount = document.getElementById("amount").value;
-  const upiId = "rahulhaldar15@fam";
-  const payeeName = "Rahul";
-  const transactionNote = "Payment Confirm";
+function formatTimeLeft(seconds) {
+  const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+  const s = (seconds % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
 
-  const upiLink = `upi://pay?pa=${upiId}&pn=${payeeName}&tn=${transactionNote}&am=${amount}&cu=INR`;
+function generateQR(amount) {
+  const txnId = "TXN" + Date.now();
+  const upiLink = `upi://pay?pa=${upiID}&pn=IG+LIKE+HUB&am=${amount}&cu=INR&tn=${txnId}`;
+  const qr = new QRious({
+    element: document.getElementById("qrcode"),
+    value: upiLink,
+    size: 250,
+  });
 
-  // Generate QR code using Google Chart API
-  const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(upiLink)}`;
-  qrCode.src = qrUrl;
+  document.getElementById("txnId").innerText = "Transaction ID: " + txnId;
+  document.getElementById("status").innerText = "Waiting for payment...";
+  startCountdown(300); // 5 minutes
 
-  paymentInfo.classList.remove("hidden");
-  payBtn.disabled = false;
-  statusText.textContent = "✅ Waiting for Payment";
-
-  startCountdown(5 * 60); // 5 minutes
-});
-
-payBtn.addEventListener("click", () => {
-  const amount = document.getElementById("amount").value;
-  const upiLink = `upi://pay?pa=rahulhaldar15@fam&pn=Rahul&tn=Payment Confirm&am=${amount}&cu=INR`;
-  window.location.href = upiLink;
-});
+  // Send Telegram alert
+  fetch(botURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      amount,
+      txnId,
+      upiID,
+      time: new Date().toLocaleString()
+    }),
+  });
+}
 
 function startCountdown(seconds) {
   clearInterval(countdown);
 
   countdown = setInterval(() => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-
-    timerText.textContent = `⏱ ${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+    document.getElementById("timer").innerText = "⏱ " + formatTimeLeft(seconds);
 
     if (seconds <= 0) {
       clearInterval(countdown);
-      timerText.textContent = "❌ Expired";
-      statusText.textContent = "❌ Payment window expired";
-      payBtn.disabled = true;
+      document.getElementById("timer").innerText = "❌ Expired";
+      document.getElementById("status").innerText = "⛔ Payment window expired";
     }
 
     seconds--;
   }, 1000);
+}
+
+function openUpiApp() {
+  const txnIdText = document.getElementById("txnId").innerText;
+  const amount = document.querySelector(".amount-selector button.active")?.innerText?.replace("₹", "") || "10";
+  const txnId = txnIdText.replace("Transaction ID: ", "").trim();
+  const upiLink = `upi://pay?pa=${upiID}&pn=IG+LIKE+HUB&am=${amount}&cu=INR&tn=${txnId}`;
+  window.location.href = upiLink;
 }
