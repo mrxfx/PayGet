@@ -1,90 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #0f1115;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-.container {
-  background: #1c1f26;
+.glass-card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(15px);
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(0, 255, 160, 0.2);
+  border-radius: 20px;
+  max-width: 360px;
   text-align: center;
-  max-width: 350px;
-  width: 100%;
-  animation: fadeIn 1s ease-in-out;
+  box-shadow: 0 0 20px rgba(0, 255, 200, 0.1);
+  animation: fadeIn 0.8s ease;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #00ffcc;
-}
-
-.amount-selector {
+h2 {
+  font-size: 22px;
+  color: #00fff7;
   margin-bottom: 20px;
 }
 
-select {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #222;
-  color: #fff;
-  font-size: 16px;
-  width: 100%;
-}
-
-button {
-  padding: 12px 20px;
-  margin-top: 20px;
-  font-size: 16px;
-  border: none;
+canvas#qrcode {
+  margin-top: 10px;
+  width: 220px;
+  height: 220px;
+  animation: pulse 2s infinite;
+  background: #fff;
   border-radius: 12px;
-  background-color: #00ffcc;
+}
+
+.amount-selector button {
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #00ffc3;
+  border: none;
   color: #000;
+  font-weight: bold;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s;
 }
 
-button:disabled {
-  background-color: #444;
-  color: #999;
-  cursor: not-allowed;
-}
-
-button:hover:not(:disabled) {
+.amount-selector button:hover {
   background-color: #00e6b8;
 }
 
-#qr-code {
-  width: 200px;
-  margin: 20px auto;
-  display: block;
-  border: 5px solid #00ffcc;
-  border-radius: 10px;
-}
-
-#timer {
-  font-size: 22px;
-  margin-top: 10px;
-  color: #ffcc00;
+.timer {
+  margin-top: 15px;
+  font-size: 18px;
   font-weight: bold;
+  color: #ffcc00;
   animation: blink 1s infinite alternate;
 }
 
-#status {
-  font-size: 16px;
+.buttons button {
   margin-top: 10px;
+  padding: 12px 20px;
+  background-color: #00ffcc;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
 }
 
-.hidden {
-  display: none;
+.status {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
 }
 
 @keyframes blink {
@@ -92,7 +84,13 @@ button:hover:not(:disabled) {
   to { opacity: 0.5; }
 }
 
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 200, 0.3); }
+  70% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(0, 255, 200, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 200, 0); }
+}
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
