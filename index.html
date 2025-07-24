@@ -3,35 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Confirm Payment</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>UPI Payment - IG Like Hub</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="glass-card">
+    <h2>Complete Your UPI Payment</h2>
 
-  <div class="container">
-    <h1>UPI Payment Confirmation</h1>
+    <canvas id="qrcode"></canvas>
 
     <div class="amount-selector">
-      <label>Select Amount:</label>
-      <select id="amount">
-        <option value="10">₹10</option>
-        <option value="20">₹20</option>
-        <option value="50">₹50</option>
-        <option value="100">₹100</option>
-      </select>
+      <p>Select Amount:</p>
+      <button onclick="generateQR(10)">₹10</button>
+      <button onclick="generateQR(20)">₹20</button>
+      <button onclick="generateQR(50)">₹50</button>
+      <button onclick="generateQR(100)">₹100</button>
     </div>
 
-    <button id="generate">Generate QR & Timer</button>
+    <p id="txnId"></p>
+    <p id="timer" class="timer">⏱ 05:00</p>
 
-    <div id="payment-info" class="hidden">
-      <img id="qr-code" src="" alt="QR Code"/>
-      <p id="timer">⏱ 05:00</p>
-      <p id="status">✅ Waiting for Payment</p>
-      <button id="payBtn">Pay Now</button>
+    <div class="buttons">
+      <button id="openAppBtn" onclick="openUpiApp()">📲 Open UPI App</button>
     </div>
 
+    <p id="status" class="status">Waiting for payment...</p>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
